@@ -1,0 +1,45 @@
+version: "3"
+networks:
+  test_ali:
+volumes:
+  test_ali_mysql:
+services:
+  nacos:
+    image: nacos/nacos-server
+    container_name: nacos_server
+    environment:
+      PREFER_HOST_MODE: hostname
+      MODE: standalone
+      SPRING_DATASOURCE_PLATFORM: mysql
+      MYSQL_SERVICE_HOST: mysql
+      MYSQL_SERVICE_DB_NAME: nacos_dev
+      MYSQL_SERVICE_PORT: 3306
+      MYSQL_SERVICE_USER: root
+      MYSQL_SERVICE_PASSWORD: prisma
+    ports:
+      - 8848:8848
+      - 9555:9555
+    networks:
+      - test_ali
+  seata:
+    image: seataio/seata-server
+    container_name: seata_server
+    ports:
+      - 8091:8091
+    # environment:
+    #   - SEATA_CONFIG_NAME=file:/root/seata-config/registry
+    # volumes:
+    #   - D:\Working\workspace\2020\test-ali\conf\seata:/root/seata-config
+    networks:
+      - test_ali
+  mysql:
+    image: mysql:5
+    container_name: mysql2
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: prisma
+    volumes:
+      - test_ali_mysql:/var/lib/mysql
+    networks:
+      - test_ali

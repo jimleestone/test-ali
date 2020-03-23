@@ -1,0 +1,10 @@
+spring:  application:
+    name: business-service
+  cloud:
+    nacos:
+      config:
+        group: BIZ
+        server-addr: 127.0.0.1:8848
+        file-extension: yml
+        namespace: 196d7384-2329-44b8-8c70-b1c1550f38aa        shared-configs:        - data-id: discovery-config.yml
+          group: SHARED        - data-id: seata-config.yml          group: SHARED
